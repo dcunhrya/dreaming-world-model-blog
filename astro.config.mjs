@@ -17,6 +17,10 @@ export default defineConfig({
     mdx({
       syntaxHighlight: 'shiki',
       gfm: true,
+      shikiConfig: {
+        theme: 'github-light',
+        wrap: true,
+      },
     }),
     react(),
     tailwind({

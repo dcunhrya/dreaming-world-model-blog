@@ -10,25 +10,25 @@ const styles: Record<string, { bg: string; border: string; title: string; icon: 
   tip: {
     bg: 'bg-emerald-50',
     border: 'border-emerald-200',
-    title: 'text-emerald-800',
+    title: 'text-emerald-900',
     icon: '💡',
   },
   note: {
-    bg: 'bg-slate-50',
-    border: 'border-slate-200',
-    title: 'text-slate-800',
+    bg: 'bg-cream-card',
+    border: 'border-border',
+    title: 'text-ink',
     icon: '📝',
   },
   warning: {
     bg: 'bg-amber-50',
     border: 'border-amber-200',
-    title: 'text-amber-800',
+    title: 'text-amber-900',
     icon: '⚠️',
   },
   info: {
-    bg: 'bg-blue-50',
-    border: 'border-blue-200',
-    title: 'text-blue-800',
+    bg: 'bg-red-50',
+    border: 'border-red-200',
+    title: 'text-accent',
     icon: 'ℹ️',
   },
 };
@@ -45,17 +45,15 @@ export default function Callout({ type = 'note', title, children }: CalloutProps
   const label = title ?? defaultTitles[type];
   return (
     <div
-      className={`rounded-lg border ${s.bg} ${s.border} p-4 my-4`}
+      className={`rounded-lg border not-prose p-4 my-4 ${s.bg} ${s.border}`}
       role="note"
       aria-label={label}
     >
-      <p className={`font-semibold ${s.title} mb-2 flex items-center gap-2`}>
+      <p className={`font-semibold mb-2 flex items-center gap-2 ${s.title}`}>
         <span aria-hidden>{s.icon}</span>
         {label}
       </p>
-      <div className="text-slate-700 prose prose-sm max-w-none [&>*:last-child]:mb-0">
-        {children}
-      </div>
+      <div className="text-ink-muted text-sm [&>*:last-child]:mb-0">{children}</div>
     </div>
   );
 }

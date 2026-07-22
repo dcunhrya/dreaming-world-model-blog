@@ -10,16 +10,9 @@ import {
   YAxis,
 } from 'recharts';
 import type { OfflineResults } from '../../dreaming/runExperiment';
+import { agentColors, chartTooltipStyle, colors } from '../../lib/theme';
 
 export type ChartVariant = 'returnVsRealSteps' | 'returnVsTotalUpdates' | 'returnVsNoise';
-
-const AGENT_COLORS: Record<string, string> = {
-  'k=0': 'rgb(148 163 184)',
-  'k=1': 'rgb(96 165 250)',
-  'k=5': 'rgb(34 211 238)',
-  'k=20': 'rgb(6 182 212)',
-  'k=100': 'rgb(8 145 178)',
-};
 
 const TITLES: Record<ChartVariant, string> = {
   returnVsRealSteps: 'Sample efficiency: return vs real environment steps',
@@ -89,34 +82,29 @@ export default function DynaResultCharts({ variant }: { variant: ChartVariant })
       }));
       return (
         <LineChart data={noiseData} margin={{ top: 8, right: 8, bottom: 24, left: 8 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="rgb(226 232 240)" />
+          <CartesianGrid strokeDasharray="3 3" stroke={colors.chartGrid} />
           <XAxis
             dataKey="noise"
-            tick={{ fill: 'rgb(71 85 105)', fontSize: 11 }}
+            tick={{ fill: colors.inkMuted, fontSize: 11 }}
             label={{
               value: 'Model noise',
               position: 'insideBottom',
               offset: -8,
               fontSize: 11,
+              fill: colors.inkMuted,
             }}
           />
-          <YAxis tick={{ fill: 'rgb(71 85 105)', fontSize: 11 }} />
-          <Tooltip
-            contentStyle={{
-              borderRadius: 8,
-              border: '1px solid rgb(226 232 240)',
-              fontSize: 12,
-            }}
-          />
+          <YAxis tick={{ fill: colors.inkMuted, fontSize: 11 }} />
+          <Tooltip contentStyle={chartTooltipStyle} />
           <Line
             type="monotone"
             dataKey="meanReturn"
             name="Mean return"
-            stroke="rgb(245 158 11)"
+            stroke={colors.cardinal}
             strokeWidth={2}
-            dot={{ r: 4 }}
+            dot={{ r: 4, fill: colors.cardinal }}
           >
-            <ErrorBar dataKey="err" width={4} strokeWidth={1} stroke="rgb(180 83 9)" />
+            <ErrorBar dataKey="err" width={4} strokeWidth={1} stroke={colors.cardinalDark} />
           </Line>
         </LineChart>
       );
@@ -130,27 +118,27 @@ export default function DynaResultCharts({ variant }: { variant: ChartVariant })
 
     return (
       <LineChart data={rows} margin={{ top: 8, right: 8, bottom: 24, left: 8 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgb(226 232 240)" />
+        <CartesianGrid strokeDasharray="3 3" stroke={colors.chartGrid} />
         <XAxis
           dataKey="x"
-          tick={{ fill: 'rgb(71 85 105)', fontSize: 11 }}
-          label={{ value: xLabel, position: 'insideBottom', offset: -8, fontSize: 11 }}
-        />
-        <YAxis tick={{ fill: 'rgb(71 85 105)', fontSize: 11 }} />
-        <Tooltip
-          contentStyle={{
-            borderRadius: 8,
-            border: '1px solid rgb(226 232 240)',
-            fontSize: 12,
+          tick={{ fill: colors.inkMuted, fontSize: 11 }}
+          label={{
+            value: xLabel,
+            position: 'insideBottom',
+            offset: -8,
+            fontSize: 11,
+            fill: colors.inkMuted,
           }}
         />
+        <YAxis tick={{ fill: colors.inkMuted, fontSize: 11 }} />
+        <Tooltip contentStyle={chartTooltipStyle} />
         {agents.map((agent) => (
           <Line
             key={agent}
             type="monotone"
             dataKey={agent}
             name={agent}
-            stroke={AGENT_COLORS[agent] ?? 'rgb(100 116 139)'}
+            stroke={agentColors[agent] ?? colors.inkLight}
             strokeWidth={2}
             dot={false}
           />
@@ -160,14 +148,14 @@ export default function DynaResultCharts({ variant }: { variant: ChartVariant })
   }, [data, variant]);
 
   return (
-    <div className="my-8 rounded-xl border border-slate-200 bg-slate-50/80 p-6">
-      <p className="mb-1 text-sm font-medium text-slate-800">{TITLES[variant]}</p>
-      <p className="mb-4 text-sm text-slate-600">{DESCRIPTIONS[variant]}</p>
+    <div className="chart-card not-prose">
+      <p className="mb-1 text-sm font-medium text-ink">{TITLES[variant]}</p>
+      <p className="mb-4 text-sm text-ink-muted">{DESCRIPTIONS[variant]}</p>
       {error && (
-        <p className="text-sm text-red-600">Failed to load results: {error}</p>
+        <p className="text-sm text-accent">Failed to load results: {error}</p>
       )}
       {!data && !error && (
-        <p className="text-sm text-slate-500">Loading experiment data…</p>
+        <p className="text-sm text-ink-light py-8 text-center">Loading experiment data…</p>
       )}
       {chartContent && (
         <div className="h-[280px] w-full">

@@ -18,6 +18,7 @@ import {
   type MaxQGrid,
 } from '../../dreaming/runExperiment';
 import type { EpisodeMetrics } from '../../dreaming/dyna';
+import { colors, chartTooltipStyle } from '../../lib/theme';
 
 const K_OPTIONS = [0, 1, 5, 20, 100] as const;
 const NOISE_OPTIONS = [0, 0.05, 0.1, 0.2] as const;
@@ -39,7 +40,7 @@ function QHeatmap({
 
   return (
     <div className="flex flex-col items-center">
-      <p className="mb-2 text-sm font-medium text-slate-700">{title}</p>
+      <p className="mb-2 text-sm font-medium text-ink">{title}</p>
       <div
         className="inline-grid gap-0.5"
         style={{
@@ -74,7 +75,7 @@ function QHeatmap({
           })
         )}
       </div>
-      <p className="mt-2 text-xs text-slate-500">Color = max<sub>a</sub> Q(s, a)</p>
+      <p className="mt-2 text-xs text-ink-light">Color = max<sub>a</sub> Q(s, a)</p>
     </div>
   );
 }
@@ -173,8 +174,8 @@ export default function DynaQExplorer() {
   }, [history, baselineHistory]);
 
   return (
-    <div className="my-8 rounded-xl border border-slate-200 bg-slate-50/80 p-6">
-      <p className="mb-4 text-slate-700">
+    <div className="chart-card not-prose">
+      <p className="mb-4 text-sm text-ink-muted">
         Adjust the <strong>dreaming budget</strong> (imagined Q-updates per real step) and{' '}
         <strong>model noise</strong>, then run Dyna-Q on the 8×8 GridWorld. Compare learning
         curves and max-Q heatmaps: left is Q-learning (k=0), right is your settings.
@@ -182,7 +183,7 @@ export default function DynaQExplorer() {
 
       <div className="mb-6 grid gap-6 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-1 block text-sm font-medium text-slate-700">
+          <span className="mb-1 block text-sm font-medium text-ink">
             Dream updates per real step: <strong>k = {dreamK}</strong>
           </span>
           <input
@@ -193,9 +194,9 @@ export default function DynaQExplorer() {
             value={kIndex}
             disabled={running}
             onChange={(e) => setKIndex(Number(e.target.value))}
-            className="w-full accent-cyan-600"
+            className="w-full accent-accent"
           />
-          <div className="mt-1 flex justify-between text-xs text-slate-500">
+          <div className="mt-1 flex justify-between text-xs text-ink-light">
             {K_OPTIONS.map((k) => (
               <span key={k}>{k}</span>
             ))}
@@ -203,7 +204,7 @@ export default function DynaQExplorer() {
         </label>
 
         <label className="block">
-          <span className="mb-1 block text-sm font-medium text-slate-700">
+          <span className="mb-1 block text-sm font-medium text-ink">
             Model noise: <strong>{modelNoise.toFixed(2)}</strong>
           </span>
           <input
@@ -216,7 +217,7 @@ export default function DynaQExplorer() {
             onChange={(e) => setNoiseIndex(Number(e.target.value))}
             className="w-full accent-amber-600"
           />
-          <div className="mt-1 flex justify-between text-xs text-slate-500">
+          <div className="mt-1 flex justify-between text-xs text-ink-light">
             {NOISE_OPTIONS.map((n) => (
               <span key={n}>{n}</span>
             ))}
@@ -229,7 +230,7 @@ export default function DynaQExplorer() {
           type="button"
           onClick={handleRun}
           disabled={running}
-          className="rounded-lg bg-cyan-600 px-4 py-2 text-sm font-medium text-white hover:bg-cyan-700 disabled:opacity-50"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-dim disabled:opacity-50"
         >
           {running ? 'Training…' : 'Run'}
         </button>
@@ -237,38 +238,32 @@ export default function DynaQExplorer() {
           type="button"
           onClick={handleReset}
           disabled={running}
-          className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50"
+          className="rounded-lg border border-border bg-cream-card px-4 py-2 text-sm font-medium text-ink hover:bg-cream-muted/80 disabled:opacity-50"
         >
           Reset seed
         </button>
-        <span className="self-center text-xs text-slate-500">Seed: {seed}</span>
+        <span className="self-center text-xs text-ink-light">Seed: {seed}</span>
       </div>
 
       <div className="mb-8 h-[220px] w-full">
-        <p className="mb-2 text-sm font-medium text-slate-700">
+        <p className="mb-2 text-sm font-medium text-ink">
           Smoothed episode return (baseline k=0 vs current)
         </p>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={chartData} margin={{ top: 8, right: 8, bottom: 8, left: 8 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="rgb(226 232 240)" />
+            <CartesianGrid strokeDasharray="3 3" stroke={colors.chartGrid} />
             <XAxis
               dataKey="episode"
-              tick={{ fill: 'rgb(71 85 105)', fontSize: 11 }}
+              tick={{ fill: colors.inkMuted, fontSize: 11 }}
               label={{ value: 'Episode', position: 'insideBottom', offset: -4, fontSize: 11 }}
             />
-            <YAxis tick={{ fill: 'rgb(71 85 105)', fontSize: 11 }} />
-            <Tooltip
-              contentStyle={{
-                borderRadius: 8,
-                border: '1px solid rgb(226 232 240)',
-                fontSize: 12,
-              }}
-            />
+            <YAxis tick={{ fill: colors.inkMuted, fontSize: 11 }} />
+            <Tooltip contentStyle={chartTooltipStyle} />
             <Line
               type="monotone"
               dataKey="baseline"
               name="k=0"
-              stroke="rgb(148 163 184)"
+              stroke={colors.inkLight}
               strokeWidth={2}
               dot={false}
             />
@@ -276,7 +271,7 @@ export default function DynaQExplorer() {
               type="monotone"
               dataKey="current"
               name={`k=${dreamK}`}
-              stroke="rgb(6 182 212)"
+              stroke={colors.cardinal}
               strokeWidth={2}
               dot={false}
             />
@@ -303,7 +298,7 @@ export default function DynaQExplorer() {
             max={currentGrid.max}
           />
         ) : (
-          <div className="flex items-center justify-center text-sm text-slate-500">
+          <div className="flex items-center justify-center text-sm text-ink-light">
             {running ? 'Training…' : 'Run to see heatmap'}
           </div>
         )}

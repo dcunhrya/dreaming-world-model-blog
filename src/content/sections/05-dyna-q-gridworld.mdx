@@ -20,21 +20,21 @@ We implement Dyna-Q in a small GridWorld. The environment is fully observable an
 
 The **world model** stores transition counts and average rewards:
 
-```typescript
-// After each real transition (s, a, r, s'):
+<CodeBlock lang="typescript" title="TypeScript">
+{`// After each real transition (s, a, r, s'):
 transitionCounts[(s, a)][sNext] += 1
 rewardSum[(s, a)] += r
-rewardCount[(s, a)] += 1
-```
+rewardCount[(s, a)] += 1`}
+</CodeBlock>
 
 Each **dream step** samples a previously seen `(s, a)`, draws `s'` from the empirical transition model, uses the average reward, and applies a Q-learning update:
 
-```typescript
-for (let k = 0; k < dreamUpdatesPerStep; k++) {
+<CodeBlock lang="typescript" title="TypeScript">
+{`for (let k = 0; k < dreamUpdatesPerStep; k++) {
   const { s, a, r, sNext } = model.sample()
   qUpdate(Q, s, a, r, sNext, alpha, gamma, false)
-}
-```
+}`}
+</CodeBlock>
 
 We compare Q-learning (`k = 0`) against Dyna-Q at several dreaming budgets. Watch the **max-Q heatmaps** below: with `k = 20`, goal reward propagates backward through the grid before the agent physically revisits every path.
 

@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-cream text-ink antialiased;
+  }
+}
+
+@layer components {
+  .prose-blog {
+    @apply prose prose-stone max-w-none;
+    @apply prose-headings:text-ink prose-headings:scroll-mt-24;
+    @apply prose-a:text-accent prose-a:no-underline hover:prose-a:underline;
+    @apply prose-code:text-accent prose-code:bg-cream-muted prose-code:px-1 prose-code:py-0.5 prose-code:rounded;
+    @apply prose-pre:bg-cream-card prose-pre:border prose-pre:border-border;
+    @apply prose-strong:text-ink;
+    @apply prose-li:text-ink-muted;
+    @apply prose-p:text-ink-muted;
+    @apply prose-th:text-ink prose-td:text-ink-muted;
+  }
+
+  .prose-blog pre code {
+    @apply bg-transparent text-ink px-0 py-0 rounded-none;
+  }
+
+  .prose-blog pre code::before,
+  .prose-blog pre code::after {
+    content: none;
+  }
+
+  .chart-card {
+    @apply rounded-xl border border-border bg-cream-card p-4 my-6 shadow-sm;
+  }
+
+  /* Fallback if any fenced code blocks remain outside CodeBlock */
+  .prose-blog pre.astro-code {
+    @apply rounded-lg border border-border bg-cream-card shadow-sm text-ink;
+    background-color: #fffdf9 !important;
+    color: #2e2d29 !important;
+  }
+}

@@ -18,9 +18,9 @@ The idea is old. Dyna mixed real experience with hypothetical experience from a 
 
 In latent world models, imagination happens in a compressed state:
 
-```
-z_{t+1} ~ p_θ(z_{t+1} | z_t, a_t)
-```
+<CodeBlock lang="text" title="Latent dynamics">
+{`z_{t+1} ~ p_θ(z_{t+1} | z_t, a_t)`}
+</CodeBlock>
 
 The GridWorld exercise is the same pattern with z<sub>t</sub> = s<sub>t</sub> and a count-based p<sub>θ</sub>. The frontier adds representation learning, long horizons, and domains where hand-built simulators do not exist.
 

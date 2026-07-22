@@ -36,7 +36,6 @@ const renderedSections = await Promise.all(
 ---
 
 <BlogLayout sections={tocItems}>
-  <div class="prose prose-slate prose-lg max-w-none">
     <BlogHeader
       title="Learning to Dream: Train-Time Compute with World Models"
       authors={[
@@ -45,9 +44,8 @@ const renderedSections = await Promise.all(
       publishedDate="July 23, 2026"
     />
     {renderedSections.map(({ id, Content }) => (
-      <section id={id} class="scroll-mt-28 mb-16 last:mb-0">
+      <section id={id} class="scroll-mt-24 mb-16 last:mb-0">
         <Content components={mdxComponents} />
       </section>
     ))}
-  </div>
 </BlogLayout>

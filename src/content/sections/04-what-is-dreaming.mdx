@@ -8,19 +8,19 @@ description: "Imagined rollouts as a train-time compute knob."
 
 Dreaming is imagined rollout inside a learned model:
 
-```
-start from known state s
+<CodeBlock lang="text" title="Dream step">
+{`start from known state s
 choose action a (from memory or policy)
 sample predicted next state s' ~ P_hat(· | s, a)
 sample predicted reward r ~ R_hat(s, a)
 update Q / policy / critic
-repeat
-```
+repeat`}
+</CodeBlock>
 
 The full loop in model-based RL looks like this:
 
-```
-real env step
+<CodeBlock lang="text" title="Model-based RL loop">
+{`real env step
     ↓
 update world model
     ↓
@@ -28,8 +28,8 @@ sample imagined transitions
     ↓
 update Q / policy / critic
     ↓
-act again
-```
+act again`}
+</CodeBlock>
 
 <Callout type="note" title="The train-time compute knob">
 **No dreaming:** 1 real transition = 1 learning update

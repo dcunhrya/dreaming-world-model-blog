@@ -1,8 +1,3 @@
-/**
- * Distill-style academic metadata header for MDX blog posts.
- * Three-column grid: AUTHORS | AFFILIATIONS | PUBLISHED.
- */
-
 export interface BlogAuthor {
   name: string;
   affiliation: string;
@@ -20,42 +15,42 @@ export default function BlogHeader({
   publishedDate,
 }: BlogHeaderProps) {
   return (
-    <header className="w-full border-y border-gray-200 py-6 my-8">
+    <header className="mb-10 pb-8 border-b border-border not-prose">
       {title ? (
-        <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-6">
+        <h1 className="text-3xl sm:text-4xl font-bold text-accent leading-tight mb-8">
           {title}
         </h1>
       ) : null}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
         <div>
-          <div className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink-light mb-2">
             Authors
-          </div>
-          <div className="flex flex-col gap-2">
-            {authors.map((author, i) => (
-              <div key={i} className="text-gray-900 font-medium leading-relaxed">
+          </p>
+          <ul className="space-y-1">
+            {authors.map((author) => (
+              <li key={author.name} className="text-ink font-medium">
                 {author.name}
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
         <div>
-          <div className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink-light mb-2">
             Affiliations
-          </div>
-          <div className="flex flex-col gap-2">
-            {authors.map((author, i) => (
-              <div key={i} className="text-gray-700 leading-relaxed">
-                {author.affiliation}
-              </div>
+          </p>
+          <ul className="space-y-1">
+            {authors.map((author) => (
+              <li key={`${author.name}-aff`} className="text-ink-muted">
+                {author.affiliation || '—'}
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
         <div>
-          <div className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3">
+          <p className="text-xs font-semibold uppercase tracking-wider text-ink-light mb-2">
             Published
-          </div>
-          <div className="text-gray-700 leading-relaxed">{publishedDate}</div>
+          </p>
+          <p className="text-ink">{publishedDate}</p>
         </div>
       </div>
     </header>

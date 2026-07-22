@@ -10,25 +10,25 @@ const styles: Record<string, { bg: string; border: string; title: string; icon: 
   tip: {
     bg: 'bg-emerald-50',
     border: 'border-emerald-200',
-    title: 'text-emerald-800',
+    title: 'text-emerald-900',
     icon: '💡',
   },
   note: {
-    bg: 'bg-slate-50',
-    border: 'border-slate-200',
-    title: 'text-slate-800',
+    bg: 'bg-cream-card',
+    border: 'border-border',
+    title: 'text-ink',
     icon: '📝',
   },
   warning: {
     bg: 'bg-amber-50',
     border: 'border-amber-200',
-    title: 'text-amber-800',
+    title: 'text-amber-900',
     icon: '⚠️',
   },
   info: {
-    bg: 'bg-blue-50',
-    border: 'border-blue-200',
-    title: 'text-blue-800',
+    bg: 'bg-red-50',
+    border: 'border-red-200',
+    title: 'text-accent',
     icon: 'ℹ️',
   },
 };
@@ -45,7 +45,7 @@ const label = title ?? defaultTitles[type];
 ---
 
 <div
-  class:list={['rounded-lg border p-4 my-4', s.bg, s.border]}
+  class:list={['rounded-lg border p-4 my-4 not-prose', s.bg, s.border]}
   role="note"
   aria-label={label}
 >
@@ -53,7 +53,7 @@ const label = title ?? defaultTitles[type];
     <span aria-hidden>{s.icon}</span>
     {label}
   </p>
-  <div class="text-slate-700 prose prose-sm max-w-none [&>*:last-child]:mb-0">
+  <div class="text-ink-muted text-sm [&>*:last-child]:mb-0">
     <slot />
   </div>
 </div>

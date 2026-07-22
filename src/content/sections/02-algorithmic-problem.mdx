@@ -18,17 +18,17 @@ Reinforcement learning agents interact with an environment modeled as a Markov d
 
 **Model-free RL** learns a value function or policy directly from experience. Q-learning is the canonical tabular example. After each transition (s<sub>t</sub>, a<sub>t</sub>, r<sub>t</sub>, s<sub>t+1</sub>), it updates:
 
-```
-Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') − Q(s, a) ]
-```
+<CodeBlock lang="text" title="Q-learning update">
+{`Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') − Q(s, a) ]`}
+</CodeBlock>
 
 where α is the learning rate and γ is the discount factor.
 
 **Model-based RL** also learns an approximate model of consequences:
 
-```
-P̂(s' | s, a)    R̂(s, a)
-```
+<CodeBlock lang="text" title="Learned model">
+{`P̂(s' | s, a)    R̂(s, a)`}
+</CodeBlock>
 
 Once those estimates exist, the agent can perform updates on **real** transitions or **imagined** transitions sampled from the model. That is the algorithmic fork this post explores.
 
