@@ -1,0 +1,51 @@
+# Deploy static build to GitHub Pages (source: Actions).
+# Repo → Settings → Pages → Build and deployment: Source = GitHub Actions.
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Configure Astro site URL and base path
+        run: |
+          echo "SITE_URL=https://dcunhrya.github.io" >> "$GITHUB_ENV"
+          echo "BASE_PATH=/dreaming-world-model-blog/" >> "$GITHUB_ENV"
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
