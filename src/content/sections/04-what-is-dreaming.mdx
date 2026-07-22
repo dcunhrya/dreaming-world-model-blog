@@ -1,0 +1,40 @@
+---
+title: "What Is Dreaming?"
+order: 4
+description: "Imagined rollouts as a train-time compute knob."
+---
+
+## What Is Dreaming?
+
+Dreaming is imagined rollout inside a learned model:
+
+```
+start from known state s
+choose action a (from memory or policy)
+sample predicted next state s' ~ P_hat(· | s, a)
+sample predicted reward r ~ R_hat(s, a)
+update Q / policy / critic
+repeat
+```
+
+The full loop in model-based RL looks like this:
+
+```
+real env step
+    ↓
+update world model
+    ↓
+sample imagined transitions
+    ↓
+update Q / policy / critic
+    ↓
+act again
+```
+
+<Callout type="note" title="The train-time compute knob">
+**No dreaming:** 1 real transition = 1 learning update
+
+**Dreaming with k = 20:** 1 real transition = 1 real update + 20 imagined updates
+</Callout>
+
+Dreaming is not free. Each imagined update costs compute. But imagined updates do not cost **real** interaction — and real interaction is often the bottleneck. That tradeoff is the central systems question: when is it worth spending train-time compute to simulate experience you have not physically collected?

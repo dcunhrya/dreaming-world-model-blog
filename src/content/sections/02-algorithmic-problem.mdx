@@ -1,0 +1,37 @@
+---
+title: "The Algorithmic Problem"
+order: 2
+description: "MDPs, Q-learning, and learned transition models."
+---
+
+## The Algorithmic Problem
+
+Reinforcement learning agents interact with an environment modeled as a Markov decision process (MDP):
+
+| Symbol | Meaning |
+|--------|---------|
+| s<sub>t</sub> | State at time t |
+| a<sub>t</sub> | Action chosen in state s<sub>t</sub> |
+| r<sub>t</sub> | Reward received after the action |
+| P(s<sub>t+1</sub> \| s<sub>t</sub>, a<sub>t</sub>) | Transition dynamics |
+| π(a<sub>t</sub> \| s<sub>t</sub>) | Policy |
+
+**Model-free RL** learns a value function or policy directly from experience. Q-learning is the canonical tabular example. After each transition (s<sub>t</sub>, a<sub>t</sub>, r<sub>t</sub>, s<sub>t+1</sub>), it updates:
+
+```
+Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') − Q(s, a) ]
+```
+
+where α is the learning rate and γ is the discount factor.
+
+**Model-based RL** also learns an approximate model of consequences:
+
+```
+P̂(s' | s, a)    R̂(s, a)
+```
+
+Once those estimates exist, the agent can perform updates on **real** transitions or **imagined** transitions sampled from the model. That is the algorithmic fork this post explores.
+
+<Callout type="note" title="What changes">
+Model-free methods treat every real step as the only source of learning signal. Model-based methods reuse each real step to improve a simulator, then spend extra compute rolling that simulator forward.
+</Callout>

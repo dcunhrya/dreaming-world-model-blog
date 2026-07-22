@@ -1,0 +1,45 @@
+---
+title: "Toy Exercise: Dyna-Q GridWorld"
+order: 5
+description: "A runnable tabular world model with imagined Q-updates."
+---
+
+## Toy Exercise: Dyna-Q GridWorld
+
+We implement Dyna-Q in a small GridWorld. The environment is fully observable and tabular, which keeps the focus on dreaming rather than representation learning.
+
+| Component | Definition |
+|-----------|------------|
+| Grid | 8×8 |
+| Start | Lower-left `(7, 0)` |
+| Goal | Upper-right `(0, 7)` |
+| Walls | Vertical barrier at column 3 with gaps at rows 2 and 5 |
+| State | Agent row and column |
+| Actions | Up, down, left, right |
+| Reward | +1 at goal, −0.01 per step, −0.2 for wall collision |
+
+The **world model** stores transition counts and average rewards:
+
+```typescript
+// After each real transition (s, a, r, s'):
+transitionCounts[(s, a)][sNext] += 1
+rewardSum[(s, a)] += r
+rewardCount[(s, a)] += 1
+```
+
+Each **dream step** samples a previously seen `(s, a)`, draws `s'` from the empirical transition model, uses the average reward, and applies a Q-learning update:
+
+```typescript
+for (let k = 0; k < dreamUpdatesPerStep; k++) {
+  const { s, a, r, sNext } = model.sample()
+  qUpdate(Q, s, a, r, sNext, alpha, gamma, false)
+}
+```
+
+We compare Q-learning (`k = 0`) against Dyna-Q at several dreaming budgets. Watch the **max-Q heatmaps** below: with `k = 20`, goal reward propagates backward through the grid before the agent physically revisits every path.
+
+<DynaQExplorer />
+
+<Callout type="tip" title="Reading the heatmap">
+Each cell shows max<sub>a</sub> Q(s, a). Brighter color means higher estimated value. With more dreaming, value information spreads from the goal through walls and around corners faster — that is the sample-efficiency gain.
+</Callout>

@@ -1,0 +1,29 @@
+---
+title: "Research Progression"
+order: 9
+description: "From Dyna-Q to foundation world models."
+---
+
+## Research Progression
+
+The idea is old. Dyna mixed real experience with hypothetical experience from a learned model. World Models showed that neural agents could learn compact latent simulations from pixels. PlaNet and Dreamer moved policy optimization into latent imagination. MuZero showed that a model does not need to predict pixels if it predicts the quantities needed for planning. DreamerV3 and Dreamer4 push the recipe toward broader domains and harder sparse-reward tasks. Genie and V-JEPA show the broader foundation-model version: large models that learn predictive structure from video and interaction.
+
+| Era | Representative work | Core move |
+|-----|---------------------|-----------|
+| 1990s | Dyna-Q (Sutton, 1990) | Tabular model + imagined Q-updates |
+| 2018 | World Models (Ha & Schmidhuber) | Train partly inside a learned latent dream |
+| 2019–2025 | Dreamer / DreamerV3 / Dreamer4 | Actor–critic learning in latent rollouts |
+| 2020 | MuZero | Model predicts planning-relevant quantities, not pixels |
+| 2024–2025 | EnvGen, Genie 3, V-JEPA 2 | Generated or foundation-scale interactive worlds |
+
+In latent world models, imagination happens in a compressed state:
+
+```
+z_{t+1} ~ p_θ(z_{t+1} | z_t, a_t)
+```
+
+The GridWorld exercise is the same pattern with z<sub>t</sub> = s<sub>t</sub> and a count-based p<sub>θ</sub>. The frontier adds representation learning, long horizons, and domains where hand-built simulators do not exist.
+
+<Callout type="note" title="Continuity">
+Dyna-Q is not a historical curiosity. It is the tabular limit of a design pattern that now appears in Dreamer, MuZero, and emerging foundation world models: **learn consequences, then train inside them**.
+</Callout>

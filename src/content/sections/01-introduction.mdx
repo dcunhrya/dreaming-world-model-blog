@@ -1,22 +1,23 @@
 ---
 title: "Introduction"
 order: 1
-description: "Introduction to the dreaming blog."
+description: "Train-time compute with learned world models in reinforcement learning."
 ---
 
 ## Introduction
 
-This is a placeholder section for your latest research blog. Replace this content with your article prose in `src/content/sections/`.
+Modern RL has a simple problem: real experience is expensive.
 
-Add new sections by creating additional MDX files in `src/content/sections/` with frontmatter:
+A robot that drops a cup, a web agent that edits the wrong field, or a clinical agent that orders the wrong test cannot learn purely by trial and error in the real world. The classical way around this is simulation. But hand-built simulators are brittle, expensive, and domain-specific.
 
-```yaml
-title: "Section title"
-order: 2
-description: "Optional section description."
-```
+World models offer a different path. Instead of writing the simulator by hand, the agent learns one from data. It watches how the environment changes after actions, compresses those dynamics into a predictive model, and then uses that model to generate imagined rollouts. Those rollouts are the agent's dreams.
 
-<Callout type="note" title="Getting started">
-Run `npm install` and `npm run dev` from the `dreaming` folder to preview locally.
-Add React components under `src/components/` when you need interactive visuals.
+In this post, we will build the smallest useful version of that idea. We will start with Q-learning in a GridWorld, add a learned tabular world model, and then spend extra train-time compute on imagined updates. The result is Dyna-Q: an old idea that feels surprisingly close to the current world-model frontier.
+
+The point is not that dreams are magic. The point is that dreams are cheap experience. When the world model is accurate, they can make learning dramatically more sample efficient. When the world model is wrong, they can teach the agent a policy that only works in the dream.
+
+<Callout type="tip" title="Train-time vs test-time compute">
+**Test-time compute** asks: can the model think longer before acting?
+
+**Train-time dreaming** asks: can the model cheaply generate more experience before deployment?
 </Callout>

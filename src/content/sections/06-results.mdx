@@ -1,0 +1,25 @@
+---
+title: "Results"
+order: 6
+description: "Sample efficiency vs compute efficiency in Dyna-Q."
+---
+
+## Results
+
+With no dreaming, the agent only learns from real transitions. It eventually solves the grid, but it wastes many real environment steps rediscovering nearby consequences.
+
+With Dyna-Q, each real transition also updates a world model. After every real step, the agent samples old state–action pairs from memory and performs imagined Q-learning updates. These imagined updates propagate value information faster. The goal reward spreads backward through the grid before the agent physically revisits every path.
+
+This is the sample-efficiency gain from train-time compute. We are not making the environment easier. We are spending extra computation to reuse experience more aggressively.
+
+<DynaResultCharts variant="returnVsRealSteps" />
+
+The chart above shows **return vs real environment steps**. Higher `k` reaches good performance with fewer real interactions when the model is accurate.
+
+<DynaResultCharts variant="returnVsTotalUpdates" />
+
+Once we count **total Q-updates** (real + imagined), heavy dreaming looks less impressive. You traded real steps for compute. That is the honest systems picture: dreaming shifts the bottleneck from data collection to train-time simulation.
+
+<Callout type="note" title="Key result">
+Dreaming improves **sample efficiency**, not necessarily **compute efficiency**. The win is fewer expensive real interactions — not fewer operations overall.
+</Callout>
