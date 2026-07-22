@@ -20,6 +20,10 @@ The article is authored as **MDX** (Markdown with interactive components), built
 
 If you are looking to **edit** the article or **run** the project locally, the section files live under `src/content/sections/`; the entry page is `src/pages/index.astro`.
 
+### Agent notes
+
+Commit authorship is governed by `.cursor/rules/git-commits.mdc`.
+
 ## Local development
 
 ```bash

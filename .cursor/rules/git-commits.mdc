@@ -1,0 +1,18 @@
+---
+description: All git commits must be authored as Ryan DCunha, never as Cursor Agent
+alwaysApply: true
+---
+
+# Git commit authorship
+
+- Commits in this repo must be authored only as **Ryan DCunha** (`dcunhrya`), email **rdcunha@stanford.edu**.
+- **Never** create a commit whose author or committer is Cursor Agent, cursoragent, or any Cursor bot identity.
+- **Never** run `git config` to change `user.name` / `user.email` (global or local).
+- This repo already has the correct local identity. Before every commit, verify with:
+  `git var GIT_AUTHOR_IDENT` and `git var GIT_COMMITTER_IDENT`
+  Both must show `Ryan DCunha <rdcunha@stanford.edu>`.
+- If the environment would otherwise stamp Cursor Agent, override **for that commit only** without writing config:
+  `git -c user.name="Ryan DCunha" -c user.email="rdcunha@stanford.edu" commit ...`
+- Do not pass `--author` with any Cursor identity. Do not use `GIT_AUTHOR_NAME=Cursor` / similar.
+- After each commit, run `git log -1 --format='%an <%ae>'` and confirm it is Ryan DCunha.
+- Push only when the user explicitly asks.
