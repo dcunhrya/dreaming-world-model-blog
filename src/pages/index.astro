@@ -4,6 +4,8 @@ import BlogLayout from '../layouts/BlogLayout.astro';
 import Callout from '../components/Callout.astro';
 import CodeBlock from '../components/CodeBlock.astro';
 import BlogHeader from '../components/BlogHeader.astro';
+import DynaQExplorer from '../components/DynaQExplorer.astro';
+import DynaResultCharts from '../components/DynaResultCharts.astro';
 
 const rawSections = await getCollection('sections');
 const sections = [...rawSections].sort((a, b) => {
@@ -21,6 +23,8 @@ const tocItems = sections.map((entry) => ({
 const mdxComponents = {
   Callout,
   CodeBlock,
+  DynaQExplorer,
+  DynaResultCharts,
 };
 
 const renderedSections = await Promise.all(

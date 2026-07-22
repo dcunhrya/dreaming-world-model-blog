@@ -1,0 +1,11 @@
+---
+import DynaResultCharts from './react/DynaResultCharts';
+
+interface Props {
+  variant?: 'returnVsRealSteps' | 'returnVsTotalUpdates' | 'returnVsNoise';
+}
+
+const { variant = 'returnVsRealSteps' } = Astro.props;
+---
+
+<DynaResultCharts client:load variant={variant} />
