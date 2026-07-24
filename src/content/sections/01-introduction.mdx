@@ -8,16 +8,23 @@ description: "Train-time compute with learned world models in reinforcement lear
 
 Modern RL has a simple problem: real experience is expensive.
 
-A robot that drops a cup, a web agent that edits the wrong field, or a clinical agent that orders the wrong test cannot learn purely by trial and error in the real world. The classical way around this is simulation. But hand-built simulators are brittle, expensive, and domain-specific.
+The algorithmic loop is simple enough: take an **action**, **observe** what happens, **update** the policy, repeat. 
+But the hardest part is building the world the agent is allowed to learn in. Real environments are expensive, slow, risky, or unavailable. A robot cannot break thousands of dishes. A clinical agent cannot learn by trial and error on patients.
 
-World models offer a different path. Instead of writing the simulator by hand, the agent learns one from data. It watches how the environment changes after actions, compresses those dynamics into a predictive model, and then uses that model to generate imagined rollouts. Those rollouts are the agent's dreams.
+The classical solution is simulation. But simulators are brittle, domain-specific, and only as good as the assumptions we provide.
+This is why **world models** have become the buzzword of RL and modern AI. Instead of hand-coding the environment, the agent learns what tends to happen after an action, compresses those dynamics into a predictive model, and then uses that model to generate imagined experience. This is the idea people often call **“dreaming”**.
 
-In this post, we will build the smallest useful version of that idea. We will start with Q-learning in a GridWorld, add a learned tabular world model, and then spend extra train-time compute on imagined updates. The result is Dyna-Q: an old idea that feels surprisingly close to the current world-model frontier.
+In this post, we push through the hype. We will define what world models and dreaming actually are, and how imagined rollouts can improve sample efficiency. Then we will build the smallest useful version of the idea: Q-learning in a GridWorld, followed by Dyna-Q with a **learned tabular world model**.
+World models started from simple implementations, not the generative models that dominate the headlines today. 
 
-The point is not that dreams are magic. The point is that dreams are cheap experience. When the world model is accurate, they can make learning dramatically more sample efficient. When the world model is wrong, they can teach the agent a policy that only works in the dream.
-
-<Callout type="tip" title="Train-time vs test-time compute">
-**Test-time compute** asks: can the model think longer before acting?
-
-**Train-time dreaming** asks: can the model cheaply generate more experience before deployment?
+<Callout type="note" title="Who this is for">
+ML engineers and researchers interested in **world models** or **RL**. Basic familiarity with MDPs and RL helps for understanding the content!
 </Callout>
+
+### What you'll find in this article
+
+- What a world model is and how it works
+- Why dreaming holds promise for RL (and why it's not new)
+- How to build a simple world model
+
+This [repository](https://github.com/dcunhrya/dreaming-world-model-blog) contains all simulator, training, and evaluation code.

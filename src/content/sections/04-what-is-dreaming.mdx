@@ -31,6 +31,12 @@ update Q / policy / critic
 act again`}
 </CodeBlock>
 
+<Callout type="tip" title="Train-time vs test-time compute">
+**Test-time compute** asks: can the model think longer before acting?
+
+**Train-time dreaming** asks: can the model cheaply generate more experience before deployment?
+</Callout>
+
 <Callout type="note" title="The train-time compute knob">
 **No dreaming:** 1 real transition = 1 learning update
 
