@@ -29,7 +29,7 @@ The published site is a **single scrolling page** with a table of contents, pros
 
 ## GridWorld branch
 
-The original **GridWorld Dyna-Q** demo (maze navigation, Q-heatmaps, transition-noise failure mode) lives on the [`gridworld-dynaq`](../../tree/gridworld-dynaq) branch.
+The original **GridWorld Dyna-Q** demo (maze navigation, Q-heatmaps, transition-noise failure mode) lives on the [`gridworld-dynaq`](https://github.com/dcunhrya/dreaming-world-model-blog/tree/gridworld-dynaq) branch.
 
 ## Implementation
 
