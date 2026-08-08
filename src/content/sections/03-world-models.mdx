@@ -6,7 +6,7 @@ description: "Consequence models, not necessarily video generators."
 
 ## What Is a World Model?
 
-"World model" is overloaded. In practice it can mean:
+"World model" is overloaded term and a huge buzz word today. It refers to a simulator/dynamics model and can refer to different things:
 
 | Type | What it predicts | Example |
 |------|------------------|---------|
@@ -19,10 +19,13 @@ The important idea:
 
 > A world model does not have to perfectly reconstruct the world. It has to preserve enough structure for the agent to choose better actions.
 
-This is related to the **value equivalence principle** (Grimm et al., 2020): a model can be useful if it preserves the quantities that matter for planning, even if it ignores irrelevant details.
+In some settings, a rough simulator is enough. In others, even small errors can change the policy the agent learns. 
+The challenge is not just asking how accurate the simulator is overall, but asking whether its errors occur in parts of the environment that matter for decision-making. 
+This is related to the **value equivalence principle** (Grimm et al., 2020): a model does not need to perfectly predict every future state transition to be useful. 
+It can still support effective planning if it induces the same value-relevant Bellman updates as the real environment for the policies and value functions the agent actually uses.
 
-<Callout type="tip" title="Memorable line">
-A world model is not necessarily a video generator. It is a **consequence model**. It only needs to preserve the parts of the future that matter for action.
+<Callout type="tip" title="Takeaway">
+A world model is not necessarily a "video generator". I's a **consequence model**, only needing to preserve the parts of the future that matter for action.
 </Callout>
 
-In our GridWorld exercise, the world model is deliberately minimal: count-based estimates of P̂(s' | s, a) and R̂(s, a). No pixels, no latent vectors — just enough structure to imagine plausible transitions.
+In the diagnostic workup exercise below, the world model is deliberately minimal with count-based estimates of P̂(s' | s, a) and R̂(s, a) over **information states** (what the clinician has observed so far). The model learns what tends to happen when you order a test or commit to a diagnosis, even though the true disease label is hidden.

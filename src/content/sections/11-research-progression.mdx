@@ -1,6 +1,6 @@
 ---
 title: "Research Progression"
-order: 9
+order: 11
 description: "From Dyna-Q to foundation world models."
 ---
 
@@ -22,7 +22,7 @@ In latent world models, imagination happens in a compressed state:
 {`z_{t+1} ~ p_θ(z_{t+1} | z_t, a_t)`}
 </CodeBlock>
 
-The GridWorld exercise is the same pattern with z<sub>t</sub> = s<sub>t</sub> and a count-based p<sub>θ</sub>. The frontier adds representation learning, long horizons, and domains where hand-built simulators do not exist.
+The diagnostic workup exercise is the tabular version of that pattern: z<sub>t</sub> is an **information state** over test results rather than a grid cell, with a count-based p<sub>θ</sub>. The frontier adds representation learning, long horizons, and domains where hand-built simulators do not exist.
 
 <Callout type="note" title="Continuity">
 Dyna-Q is not a historical curiosity. It is the tabular limit of a design pattern that now appears in Dreamer, MuZero, and emerging foundation world models: **learn consequences, then train inside them**.

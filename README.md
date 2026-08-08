@@ -23,16 +23,19 @@ The published site is a **single scrolling page** with a table of contents, pros
 5. Toy exercise — live Dyna-Q GridWorld with Q-value heatmaps
 6. Results — sample efficiency vs compute efficiency
 7. When dreaming fails — model exploitation and transition noise
-8. The promise of dreaming — web agents, robotics, healthcare (short bridge)
-9. Research progression — Dyna → Dreamer → MuZero → foundation world models
-10. Conclusion
-11. References
+8. Diagnostic workup — synthetic ED chest-pain simulator (information-state MDP)
+9. Diagnostic results — accuracy, rare PE, model bias, cost–safety plots
+10. The promise of dreaming — web agents, robotics, healthcare bridge
+11. Research progression — Dyna → Dreamer → MuZero → foundation world models
+12. Conclusion
+13. References
 
 ## Implementation
 
-- **Simulation engine:** TypeScript under `src/dreaming/` (GridWorld, Q-learning, Dyna-Q)
-- **Interactive demo:** `DynaQExplorer` — live training with dream-budget and model-noise sliders
-- **Static charts:** precomputed via `npm run generate:results` → `public/data/dyna_results.json`
+- **GridWorld engine:** TypeScript under `src/dreaming/` (GridWorld, Q-learning, Dyna-Q)
+- **Diagnostic engine:** `src/dreaming/diagnostic/` — synthetic chest-pain workup, empirical world model, baselines
+- **Interactive demos:** `DynaQExplorer`, `DiagnosticWorkupExplorer`
+- **Static charts:** `npm run generate:all-results` → `public/data/dyna_results.json`, `public/data/diagnostic_results.json`
 - **Content:** MDX sections in `src/content/sections/`
 
 ### Agent notes
@@ -43,7 +46,8 @@ Commit authorship is governed by `.cursor/rules/git-commits.mdc`.
 
 ```bash
 npm install
-npm run generate:results   # optional: regenerate chart JSON
+npm run generate:all-results   # optional: regenerate chart JSON
+npm run test
 npm run dev
 ```
 

@@ -106,6 +106,9 @@ export function aggregateReturnCurves(
         stderr: stderr(ys),
       });
     }
+    if (points.length > 0 && points[0]!.x > 0) {
+      points.unshift({ x: 0, meanReturn: 0, stderr: 0 });
+    }
     curves.push({ agent, points });
   }
 

@@ -31,16 +31,15 @@ update Q / policy / critic
 act again`}
 </CodeBlock>
 
-<Callout type="tip" title="Train-time vs test-time compute">
-**Test-time compute** asks: can the model think longer before acting?
-
-**Train-time dreaming** asks: can the model cheaply generate more experience before deployment?
-</Callout>
+There is a notion of test-time computer where we have the model think longer before acting (in a reasoning sense).
+Dreaming is more of train-time compute where have the model generate (ideally cheaply) more experience before deployment.
 
 <Callout type="note" title="The train-time compute knob">
 **No dreaming:** 1 real transition = 1 learning update
 
-**Dreaming with k = 20:** 1 real transition = 1 real update + 20 imagined updates
+**Dreaming with k examples:** 1 real transition = 1 real update + k imagined updates
 </Callout>
 
-Dreaming is not free. Each imagined update costs compute. But imagined updates do not cost **real** interaction — and real interaction is often the bottleneck. That tradeoff is the central systems question: when is it worth spending train-time compute to simulate experience you have not physically collected?
+Dreaming is not free, and in fact, it can be extremely costly. 
+But imagined updates do not cost **real** interaction, and real interaction is often the bottleneck. 
+That tradeoff is the central systems question: when is it worth spending train-time compute to simulate experience you have not physically collected?

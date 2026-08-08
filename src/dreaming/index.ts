@@ -31,3 +31,4 @@ export {
   type AggregatedCurve,
 } from './runExperiment';
 export { mulberry32, type Rng } from './rng';
+export * as diagnostic from './diagnostic';

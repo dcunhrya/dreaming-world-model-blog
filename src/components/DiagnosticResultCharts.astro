@@ -1,0 +1,18 @@
+---
+import DiagnosticResultCharts from './react/DiagnosticResultCharts.tsx';
+
+interface Props {
+  variant:
+    | 'returnVsRealSteps'
+    | 'returnVsTotalUpdates'
+    | 'accuracyVsRealSteps'
+    | 'criticalRecallVsRealSteps'
+    | 'biasFailure'
+    | 'prevalenceShift'
+    | 'costSafetyPareto'
+    | 'finalMetrics';
+}
+
+const { variant } = Astro.props;
+---
+<DiagnosticResultCharts client:load variant={variant} />

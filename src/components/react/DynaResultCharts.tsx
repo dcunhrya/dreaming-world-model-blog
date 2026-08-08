@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import type { OfflineResults } from '../../dreaming/runExperiment';
 import { agentColors, chartTooltipStyle, colors } from '../../lib/theme';
+import MultiAgentLearningChart, { toMultiAgentCurves } from './MultiAgentLearningChart';
 
 export type ChartVariant = 'returnVsRealSteps' | 'returnVsTotalUpdates' | 'returnVsNoise';
 
@@ -28,33 +29,6 @@ const DESCRIPTIONS: Record<ChartVariant, string> = {
   returnVsNoise:
     'Injected transition noise makes the world model lie; the agent optimizes the dream, not the real grid.',
 };
-
-function flattenCurves(
-  results: OfflineResults,
-  key: 'returnVsRealSteps' | 'returnVsTotalUpdates'
-) {
-  const rows: { x: number; [agent: string]: number | string | null }[] = [];
-  const curves = results[key];
-  const xSet = new Set<number>();
-  for (const curve of curves) {
-    for (const p of curve.points) xSet.add(Math.round(p.x));
-  }
-  const xs = [...xSet].sort((a, b) => a - b);
-  for (const x of xs) {
-    const row: { x: number; [agent: string]: number | string | null } = { x };
-    for (const curve of curves) {
-      const nearest = curve.points.reduce((best, p) =>
-        Math.abs(p.x - x) < Math.abs(best.x - x) ? p : best
-      );
-      if (Math.abs(nearest.x - x) < nearest.x * 0.15 + 50) {
-        row[curve.agent] = nearest.meanReturn;
-        row[`${curve.agent}_err`] = nearest.stderr;
-      }
-    }
-    rows.push(row);
-  }
-  return { rows, agents: curves.map((c) => c.agent) };
-}
 
 export default function DynaResultCharts({ variant }: { variant: ChartVariant }) {
   const [data, setData] = useState<OfflineResults | null>(null);
@@ -112,38 +86,16 @@ export default function DynaResultCharts({ variant }: { variant: ChartVariant })
 
     const key =
       variant === 'returnVsRealSteps' ? 'returnVsRealSteps' : 'returnVsTotalUpdates';
-    const { rows, agents } = flattenCurves(data, key);
+    const curves = data[key];
     const xLabel =
       variant === 'returnVsRealSteps' ? 'Real env steps' : 'Total Q-updates';
 
     return (
-      <LineChart data={rows} margin={{ top: 8, right: 8, bottom: 24, left: 8 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke={colors.chartGrid} />
-        <XAxis
-          dataKey="x"
-          tick={{ fill: colors.inkMuted, fontSize: 11 }}
-          label={{
-            value: xLabel,
-            position: 'insideBottom',
-            offset: -8,
-            fontSize: 11,
-            fill: colors.inkMuted,
-          }}
-        />
-        <YAxis tick={{ fill: colors.inkMuted, fontSize: 11 }} />
-        <Tooltip contentStyle={chartTooltipStyle} />
-        {agents.map((agent) => (
-          <Line
-            key={agent}
-            type="monotone"
-            dataKey={agent}
-            name={agent}
-            stroke={agentColors[agent] ?? colors.inkLight}
-            strokeWidth={2}
-            dot={false}
-          />
-        ))}
-      </LineChart>
+      <MultiAgentLearningChart
+        curves={toMultiAgentCurves(curves)}
+        xLabel={xLabel}
+        agentStroke={(agent) => agentColors[agent] ?? colors.inkLight}
+      />
     );
   }, [data, variant]);
 

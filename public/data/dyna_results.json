@@ -48,6 +48,11 @@
       "agent": "k=0",
       "points": [
         {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
+        {
           "x": 53.9,
           "meanReturn": -1.4859999999999993,
           "stderr": 0.21573234445591166
@@ -1052,6 +1057,11 @@
     {
       "agent": "k=1",
       "points": [
+        {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
         {
           "x": 48.1,
           "meanReturn": -1.4279999999999993,
@@ -2058,6 +2068,11 @@
       "agent": "k=5",
       "points": [
         {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
+        {
           "x": 47.5,
           "meanReturn": -1.3459999999999994,
           "stderr": 0.15871147826585555
@@ -3063,6 +3078,11 @@
       "agent": "k=20",
       "points": [
         {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
+        {
           "x": 50.3,
           "meanReturn": -1.411999999999999,
           "stderr": 0.19723533602723797
@@ -4067,6 +4087,11 @@
     {
       "agent": "k=100",
       "points": [
+        {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
         {
           "x": 55.5,
           "meanReturn": -1.6919999999999988,
@@ -5075,6 +5100,11 @@
       "agent": "k=0",
       "points": [
         {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
+        {
           "x": 53.9,
           "meanReturn": -1.4859999999999993,
           "stderr": 0.21573234445591166
@@ -6079,6 +6109,11 @@
     {
       "agent": "k=1",
       "points": [
+        {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
         {
           "x": 96.2,
           "meanReturn": -1.4279999999999993,
@@ -7085,6 +7120,11 @@
       "agent": "k=5",
       "points": [
         {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
+        {
           "x": 285,
           "meanReturn": -1.3459999999999994,
           "stderr": 0.15871147826585555
@@ -8090,6 +8130,11 @@
       "agent": "k=20",
       "points": [
         {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
+        {
           "x": 1056.3,
           "meanReturn": -1.411999999999999,
           "stderr": 0.19723533602723797
@@ -9094,6 +9139,11 @@
     {
       "agent": "k=100",
       "points": [
+        {
+          "x": 0,
+          "meanReturn": 0,
+          "stderr": 0
+        },
         {
           "x": 5605.5,
           "meanReturn": -1.6919999999999988,

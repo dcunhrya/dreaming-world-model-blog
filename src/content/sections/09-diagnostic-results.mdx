@@ -1,0 +1,60 @@
+---
+title: "Diagnostic Workup: Results"
+order: 9
+description: "Experiments on sample efficiency, safety, rare disease, and model bias."
+---
+
+## Diagnostic Workup: Results
+
+We benchmark Q-learning and Dyna-Q (`k ∈ {1, 5, 20, 100}`) against two heuristics on the synthetic chest-pain simulator:
+
+| Baseline | Behavior |
+|----------|----------|
+| **Prior-only** | Diagnose the highest-prevalence disease without ordering tests |
+| **All-tests oracle** | Order every test, then diagnose via simulator posterior |
+
+Each agent trains for 150 episodes × 8 seeds. Metrics include episode return, diagnostic accuracy, macro recall, ACS/PE recall, tests per workup, and missed-critical rate.
+
+### Sample and compute efficiency
+
+<DiagnosticResultCharts variant="returnVsRealSteps" />
+
+<DiagnosticResultCharts variant="returnVsTotalUpdates" />
+
+Dyna-Q with moderate dreaming budgets reaches higher returns with fewer **real simulated patients**. Once **total Q-updates** (real + imagined) are counted, the compute tradeoff reappears.
+
+### Accuracy and safety-sensitive recall
+
+<DiagnosticResultCharts variant="accuracyVsRealSteps" />
+
+<DiagnosticResultCharts variant="criticalRecallVsRealSteps" />
+
+Aggregate accuracy can hide safety gaps. **ACS/PE recall** tracks whether critical diagnoses are caught — the metric that matters when dreaming is sold as a way to practice rare but dangerous cases.
+
+### Benchmark summary
+
+<DiagnosticResultCharts variant="finalMetrics" />
+
+### Rare PE prevalence
+
+<DiagnosticResultCharts variant="prevalenceShift" />
+
+When PE prevalence drops, PE recall can collapse even if overall accuracy looks acceptable. Empirical dreaming **cannot invent** disease transitions that never appeared in real rollouts — if PE cases are too rare, the learned model never acquires enough PE-specific test dynamics to dream useful workups.
+
+### Model misspecification (D-dimer bias)
+
+<DiagnosticResultCharts variant="biasFailure" />
+
+We inject bias into the **learned** model by underestimating D-dimer sensitivity during imagined updates. As dream budget increases, return drops — more dreaming amplifies a bad model, and the agent learns to skip PE workups in dreams that look cheaper than reality.
+
+### Cost–safety tradeoff
+
+<DiagnosticResultCharts variant="costSafetyPareto" />
+
+Higher test costs push policies toward fewer orders. The scatter plot tracks **accuracy vs missed ACS/PE rate** as test prices scale — a simple Pareto view of the cost–latency-style tradeoff from systems autoscaling, now in a diagnostic setting.
+
+<Callout type="warning" title="Takeaway">
+Dreaming can help when real rare-case experience is scarce and the learned model is accurate enough. In healthcare, the research question is not "generate more patients" — it is whether imagined transitions form a **verified clinical sandbox** before any policy is trusted.
+</Callout>
+
+These results are synthetic educational experiments. They demonstrate algorithmic behavior, not evidence for deployment.

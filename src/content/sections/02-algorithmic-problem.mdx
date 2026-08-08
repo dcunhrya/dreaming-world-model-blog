@@ -30,7 +30,7 @@ where α is the learning rate and γ is the discount factor.
 {`P̂(s' | s, a)    R̂(s, a)`}
 </CodeBlock>
 
-Once those estimates exist, the agent can perform updates on **real** transitions or **imagined** transitions sampled from the model. That is the algorithmic fork this post explores.
+Once those estimates exist, the agent can perform updates on **real** transitions or **imagined** transitions sampled from the model. That is the algorithmic intersection I explore in this post.
 
 <Callout type="note" title="What changes">
 Model-free methods treat every real step as the only source of learning signal. Model-based methods reuse each real step to improve a simulator, then spend extra compute rolling that simulator forward.
