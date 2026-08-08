@@ -18,3 +18,13 @@ export function randomInt(rng: Rng, min: number, max: number): number {
 export function choice<T>(rng: Rng, items: T[]): T {
   return items[Math.floor(rng() * items.length)]!;
 }
+
+export function weightedChoice<T>(rng: Rng, items: { item: T; weight: number }[]): T {
+  const total = items.reduce((sum, x) => sum + x.weight, 0);
+  let roll = rng() * total;
+  for (const { item, weight } of items) {
+    roll -= weight;
+    if (roll <= 0) return item;
+  }
+  return items[items.length - 1]!.item;
+}

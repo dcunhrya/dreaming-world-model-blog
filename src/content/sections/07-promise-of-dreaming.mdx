@@ -1,0 +1,19 @@
+---
+title: "The Promise of Dreaming"
+order: 7
+description: "Why imagined experience matters beyond the toy simulator."
+---
+
+## The Promise of Dreaming
+
+The promise of dreaming is not just faster learning in a toy simulator. The promise is that agents may eventually generate useful training environments for themselves in domains where real data is scarce, expensive, unsafe, or slow to collect.
+
+- **Web and software agents** can practice on synthetic tasks — broken unit tests, fake GitHub issues, corrupted configs, API migrations — where rewards come from tests, type checks, and hidden evals. Many real tasks are private; generated variants scale without sharing customer data.
+
+- **Robotics** can train on imagined contact dynamics before touching hardware. The catch: a visually pretty video model is not enough if grasp physics are wrong. The model must preserve action-conditioned consequences.
+
+- **Healthcare** has scarce labels, unsafe exploration, and expensive feedback. The diagnostic workup exercise above shows how the same dreaming pattern applies — but only when imagined transitions are validated. See that section for the synthetic sandbox and safety metrics.
+
+<Callout type="warning" title="Healthcare caveat">
+In healthcare, dreaming should mean **constrained, auditable training environments** — not unconstrained patient hallucination followed by policy deployment.
+</Callout>

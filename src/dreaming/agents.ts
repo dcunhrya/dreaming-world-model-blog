@@ -54,10 +54,12 @@ export function epsilonGreedy(
   Q: QTable,
   s: number,
   epsilon: number,
-  rng: Rng
-): Action {
+  rng: Rng,
+  nActions?: number
+): number {
+  const numActions = nActions ?? Q[s]!.length;
   if (rng() < epsilon) {
-    return Math.floor(rng() * 4) as Action;
+    return Math.floor(rng() * numActions);
   }
   return argmaxQ(Q, s);
 }

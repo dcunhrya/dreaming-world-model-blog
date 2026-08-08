@@ -1,0 +1,65 @@
+---
+title: "A Diagnostic Healthcare World Model"
+order: 5
+description: "Information-gathering under uncertainty with a synthetic ED chest-pain simulator."
+---
+
+## A Diagnostic Healthcare World Model
+
+Unlike a fully observable navigation task, a clinical workup is partial information gathering. 
+The agent sees only what has been tested so far, not the true diagnosis. At each step it must decide whether to order another test (ECG, troponin, D-dimer, chest X-ray) or commit to a diagnosis, balancing accuracy against test cost and delay. 
+Rare but dangerous cases like pulmonary embolism may appear infrequently, which makes real experience scarce.
+
+This section applies **Dyna-Q** to that setting: Q-learning from real simulated patients, plus a learned tabular world model that records what usually happens after each test or diagnosis. 
+After every real case, the agent performs extra **imagined updates** from that model. 
+Cheap practice on workups it may not see often enough in real rollouts. 
+It is an educational toy, not a clinically validated system and **not trained on EHR data**.
+
+<Callout type="warning" title="Synthetic simulator only">
+All disease priors and test sensitivities are **hand-specified** approximations inspired by common teaching ranges. They are useful for demonstrating world models and dreaming, not for clinical decision support.
+</Callout>
+
+### Clinical question
+
+A patient presents with chest pain. The hidden diagnosis is one of:
+
+| Disease | Role in the toy cohort |
+|---------|------------------------|
+| **ACS** | Critical  and must not miss |
+| **PE** | Critical and often rare |
+| **Pneumonia** | Common, testable |
+| **Benign cause** | Common, low risk |
+
+The agent can **order tests** (ECG, troponin, D-dimer, chest X-ray) or **commit to a diagnosis**. Each test reveals a positive or negative finding drawn from disease-specific sensitivity tables in the ground-truth simulator.
+
+### Information-state MDP
+
+The **observed state** (what the clinician knows) consists of a risk profile plus which tests have been ordered and their results. 
+The hidden disease label is not part of the state. It is a compact information-state approximation to a POMDP (partially observable Markov decision process).
+
+| Component | Definition |
+|-----------|------------|
+| **Hidden state** | True disease (ACS, PE, pneumonia, benign) |
+| **Observed state** s<sub>t</sub> | Risk profile + result history for four tests |
+| **Action** a<sub>t</sub> | Order a test or diagnose one of four diseases |
+| **Transition** | Test → finding sampled from P(test result \| disease); diagnosis → terminal |
+| **Reward** | +correct diagnosis, −wrong diagnosis, extra penalty for missed ACS/PE, −test cost, −delay |
+
+There are 243 tabular information states (3 risk profiles × 3<sup>4</sup> test-result combinations) and 8 actions.
+
+### Ground truth vs learned model
+
+Two layers of simulation:
+
+1. **Ground-truth simulator** — hand-built tables in `src/dreaming/diagnostic/config.ts`. Samples hidden disease and test findings.
+2. **Learned world model** — empirical counts of `(s, a) → (s', r, done)` from real rollouts, in the same spirit as tabular Dyna-Q.
+
+Dreaming resamples from the learned model to practice workups the agent rarely sees in real interaction — especially when **PE is uncommon**.
+
+<DiagnosticWorkupExplorer />
+
+<Callout type="tip" title="Reading the explorer">
+Use the step slider to walk through the same seeded patient under Q-learning vs Dyna-Q. The **simulator-derived differential** bar chart is for explanation only — it shows what a Bayes update on the ground-truth tables would believe, not the RL agent's internal state.
+</Callout>
+
+Next we quantify sample efficiency, safety metrics, rare-disease behavior, and what happens when the learned model mis-specifies D-dimer sensitivity.

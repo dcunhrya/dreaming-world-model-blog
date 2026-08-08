@@ -1,0 +1,25 @@
+---
+title: "Conclusion"
+order: 9
+description: "Practical takeaways on train-time dreaming."
+---
+
+## Conclusion
+
+Dreaming gives RL a different scaling axis.
+
+Instead of only collecting more real experience, the agent can spend more compute replaying and recombining what it already knows. In the diagnostic workup toy, that looks like imagined test-order transitions for rare PE cases. In Dreamer, it looks like actor–critic learning inside latent trajectories. In emerging foundation world models, it may look like agents training inside generated environments.
+
+The caveat is that the dream has to be good enough. A wrong model can produce a policy that exploits hallucinated transitions. The agent is not confused; it is optimizing exactly what we gave it.
+
+That is why the most interesting version of dreaming is not unlimited synthetic data. It is **verified synthetic interaction**. This is especially true in healthcare, where data is scarce, exploration is unsafe, and the cost of a false shortcut is high.
+
+**Practical takeaways:**
+
+- Dreaming is train-time compute spent generating imagined experience from a learned world model.
+- It improves sample efficiency when the model is accurate, but it can hurt when the model lies.
+- The frontier is not simply bigger policies. It is better environments. Learned, constrained, auditable worlds where agents can practice before they act.
+
+<Callout type="tip" title="Learning More">
+Some famous papers are liked in the references below from RL, dreaming, and healthcare RL. Feel free to give them a read!
+</Callout>
